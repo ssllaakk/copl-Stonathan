@@ -1,16 +1,19 @@
-#include <lex.h>
+#include "lex.h" 
 
-void Lex::addChar(){
+void Lex::addChar(){ // begin of addChar
     if(lexLen < MAXLEN - 1){
         lexeme[lexLen] = nextChar;
         lexLen++;
         lexeme[lexLen] = 0;
+    }else{
+        std::cerr << "lexeme is already full" << std::endl;
+        exit(1);
     }
-}
+} // end of addChar
 
-void Lex::getChar(){
+void Lex::getChar(){ // begin of getChar
+    std::cin.get(nextChar);
     if(!std::cin.eof()){
-        std::cin >> nextChar;
         if(isalpha(nextChar)){
             charClass = LETTER;
         }else if(isdigit(nextChar)){
@@ -18,25 +21,70 @@ void Lex::getChar(){
         }else{
             charClass = UNKNOWN;
         }
+    }else {
+        charClass = EOF;
     }
-}
+} // end of getChar
 
-int Lex::lookup(char ch){
+int Lex::lookup(char ch){ // begin of lookup
     switch (ch)
     {
     case '(':
         addChar();
-        nextToken = LEFT_PAREN;
+        return LEFT_PAREN;
         break;
 
     case ')':
         addChar();
-        nextToken = RIGHT_PAREN;
+        return RIGHT_PAREN;
         break;
     
     case '\\':
         addChar();
-        nextToken = LAMBDA;
+        return LAMBDA;
         break;
     }
-}
+    return ERROR;
+} // end of lookup
+
+int Lex::analyse(){ // begin of analyse
+    lexLen = 0;
+    getchar();
+    switch (charClass)
+    {
+    case LETTER:
+        addChar();
+        getchar();
+        while(charClass == LETTER || charClass == DIGIT){
+            addChar();
+            getChar();
+        }
+        nextToken = VAR;
+        break;
+    case DIGIT:
+        std::cerr << "DIGIT error at character #" << std::endl;
+        exit(1);
+        break;
+
+    case UNKNOWN:
+        nextToken = lookup(nextChar);
+        getChar();
+        break;
+
+    case ERROR:
+        std::cerr << "ERROR error at character #" << std::endl;
+        exit(1);
+        break;
+
+    case EOF:
+        nextToken = EOF;
+        lexeme[0] = 'E';
+        lexeme[1] = 'O';
+        lexeme[2] = 'F';
+        lexeme[3] = 0;
+        break;
+    }
+
+    std::cout << " Next token is: " << nextToken << "\t Next lexeme is" << lexeme << std::endl;
+    return nextToken;
+} // end of analyse

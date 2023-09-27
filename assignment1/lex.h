@@ -1,5 +1,5 @@
 #include <iostream>
-#include <constantes.h>
+#include "constantes.h"
 
 
 #ifndef LEXICAL_ANALYSER
@@ -11,16 +11,16 @@ public:
     int analyse(); // performs lexical analysis for
                    // Lambda calculus. Returns the next token
 
+    void getChar(); // a function to get the next character
+                    // of input and determine its character class
+
 private:
     // functions
     
     void addChar(); // a function to add nextChar to lexeme
 
-    void getChar(); // a function to get the next character
-                    // of input and determine its character class
-
     int lookup(char ch); // function to lookup operators
-                         // and parantheses and return the token
+                         // and parantheses which returns their token code
 
     // variables
 

@@ -1,2 +1,2 @@
-main: main.cc constantes.h lex.h
-	g++ -Wall -Wextra -o main main.cc constantes.h lex.h
+main: main.cc constantes.h lex.h lex.cc
+	g++ -Wall -Wextra -o main constantes.h lex.h lex.cc main.cc 

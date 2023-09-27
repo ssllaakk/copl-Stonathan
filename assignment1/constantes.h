@@ -13,6 +13,7 @@ const int VAR = 10;
 const int LAMBDA = 20;
 const int LEFT_PAREN = 25;
 const int RIGHT_PAREN = 26;
+const int ERROR = 404;
 
 
 #endif
