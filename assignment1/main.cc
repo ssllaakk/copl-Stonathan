@@ -1,4 +1,4 @@
-#include "iostream"
+#include <iostream>
 #include "lex.h"
 
 // 1. Lexical analysis

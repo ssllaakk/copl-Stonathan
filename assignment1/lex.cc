@@ -1,4 +1,5 @@
 #include "lex.h" 
+#include <iostream>
 
 void Lex::addChar(){ // begin of addChar
     if(lexLen < MAXLEN - 1){
@@ -12,7 +13,14 @@ void Lex::addChar(){ // begin of addChar
 } // end of addChar
 
 void Lex::getChar(){ // begin of getChar
-    std::cin.get(nextChar);
+    if(lineIndex < (int)currentLine.length() - 1){
+        lineIndex++;
+    }else{
+        std::getline(std::cin, currentLine);
+        currentLine = currentLine + (char)0;
+        lineIndex = 0;
+    }
+    nextChar = currentLine[lineIndex];
     if(!std::cin.eof()){
         if(isalpha(nextChar)){
             charClass = LETTER;
@@ -25,6 +33,12 @@ void Lex::getChar(){ // begin of getChar
         charClass = EOF;
     }
 } // end of getChar
+
+void Lex::getNonBlank(){
+    while(isspace(nextChar) || isblank(nextChar)){
+        getChar();
+    }
+}
 
 int Lex::lookup(char ch){ // begin of lookup
     switch (ch)
@@ -49,12 +63,10 @@ int Lex::lookup(char ch){ // begin of lookup
 
 int Lex::analyse(){ // begin of analyse
     lexLen = 0;
-    getchar();
+    getNonBlank();
     switch (charClass)
     {
     case LETTER:
-        addChar();
-        getchar();
         while(charClass == LETTER || charClass == DIGIT){
             addChar();
             getChar();
@@ -71,11 +83,6 @@ int Lex::analyse(){ // begin of analyse
         getChar();
         break;
 
-    case ERROR:
-        std::cerr << "ERROR error at character #" << std::endl;
-        exit(1);
-        break;
-
     case EOF:
         nextToken = EOF;
         lexeme[0] = 'E';
@@ -85,6 +92,6 @@ int Lex::analyse(){ // begin of analyse
         break;
     }
 
-    std::cout << " Next token is: " << nextToken << "\t Next lexeme is" << lexeme << std::endl;
+    std::cout << " Next token is: " << nextToken << "\t Next lexeme is " << lexeme << std::endl;
     return nextToken;
 } // end of analyse

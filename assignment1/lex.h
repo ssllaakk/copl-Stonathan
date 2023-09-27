@@ -21,6 +21,8 @@ private:
 
     int lookup(char ch); // function to lookup operators
                          // and parantheses which returns their token code
+    void getNonBlank(); // a function to call getChar until it returns a 
+                        // non-whitespace character
 
     // variables
 
@@ -29,6 +31,9 @@ private:
     char nextChar; // character currently analysis
     int lexLen; // length of lexeme
     int nextToken; // token of lexeme being build;
+
+    std::string currentLine = "";
+    int lineIndex = 10;
 };
 
 #endif
