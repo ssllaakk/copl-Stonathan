@@ -35,7 +35,7 @@ void Lex::getChar(){ // begin of getChar
 } // end of getChar
 
 void Lex::getNonBlank(){
-    while(isspace(nextChar) || nextChar == 0){
+    while((isspace(nextChar) || nextChar == 0) && !(charClass == EOF)){
         getChar();
     }
 }
