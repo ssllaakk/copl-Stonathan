@@ -80,6 +80,10 @@ int Lex::analyse(){ // begin of analyse
 
     case UNKNOWN:
         nextToken = lookup(nextChar);
+        if(nextToken == ERROR){
+            std::cerr << " Next token is: " << nextToken << "\t Character "
+                     << nextChar << " is unkown " << std::endl;
+        }
         getChar();
         break;
 
@@ -92,6 +96,9 @@ int Lex::analyse(){ // begin of analyse
         break;
     }
 
-    std::cout << " Next token is: " << nextToken << "\t Next lexeme is " << lexeme << std::endl;
+    if(!(nextToken == ERROR)){
+        std::cout << " Next token is: " << nextToken << "\t Next lexeme is " << lexeme << std::endl;
+    }
+    
     return nextToken;
 } // end of analyse
