@@ -8,7 +8,6 @@ void Lex::addChar(){ // begin of addChar
         lexeme[lexLen] = 0;
     }else{
         std::cerr << "lexeme is already full" << std::endl;
-        exit(1);
     }
 } // end of addChar
 
@@ -74,8 +73,10 @@ int Lex::analyse(){ // begin of analyse
         nextToken = VAR;
         break;
     case DIGIT:
-        std::cerr << "DIGIT error at character #" << std::endl;
-        exit(1);
+        std::cerr << "Syntax error at charater " << nextChar
+         << ". Variable may not start with a digit " << nextChar <<  std::endl;
+        getChar();
+        nextToken = ERROR;
         break;
 
     case UNKNOWN:

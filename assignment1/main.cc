@@ -3,6 +3,8 @@
 
 // 1. Lexical analysis
 // 2. Parsen
+//  * Grammer versimpelen naar LL form
+//  * Recursive decent parser bouwen
 
 
 int main(){
@@ -16,6 +18,7 @@ int main(){
     lex.getChar();
     do{
         token = lex.analyse();
+        // voer token in de parses
     } while (token != EOF);
 
     return 0;
