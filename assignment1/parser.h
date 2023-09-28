@@ -1,3 +1,4 @@
+#include "lex.h"
 
 #ifndef PARSER
 #define PARSER
@@ -30,6 +31,8 @@ private:
     
     int nextToken;
     bool passed = true; // a variable that keeps track if the parser detected errors
+
+    Lex lex; // lexical analyser used by the parser
 
 
 };
