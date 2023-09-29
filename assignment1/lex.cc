@@ -12,15 +12,18 @@ void Lex::addChar(){ // begin of addChar
 } // end of addChar
 
 void Lex::getChar(){ // begin of getChar
-    if(lineIndex < (int)currentLine.length() - 1){
-        lineIndex++;
-    }else{
-        std::getline(std::cin, currentLine);
-        currentLine = currentLine + (char)0;
-        lineIndex = 0;
-    }
-    nextChar = currentLine[lineIndex];
-    if(!std::cin.eof()){
+
+    // Expression end at \n
+    lineIndex++;
+
+    if(!(std::cin.eof() && lineIndex >= (int)currentLine.length())){
+
+        if(lineIndex >= (int)currentLine.length()){
+            std::getline(std::cin, currentLine);
+            lineIndex = 0;
+        }
+        nextChar = currentLine[lineIndex];
+    
         if(isalpha(nextChar)){
             charClass = LETTER;
         }else if(isdigit(nextChar)){

@@ -16,5 +16,11 @@ int main(){
 
     parser.parse();
 
-    return parser.getPassed();
+    if(parser.getPassed()){
+        std::cout << "PASSED" << std::endl;
+    }else{
+        std::cout << "FAILED" << std::endl;
+    }
+    
+    return !(parser.getPassed());
 }

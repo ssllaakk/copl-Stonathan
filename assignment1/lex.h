@@ -33,7 +33,7 @@ private:
     int nextToken; // token of lexeme being build;
 
     std::string currentLine = "";
-    int lineIndex = 10;
+    int lineIndex = INT8_MAX;
 };
 
 #endif
