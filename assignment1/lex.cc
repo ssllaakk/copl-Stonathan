@@ -1,5 +1,6 @@
-#include "lex.h" 
 #include <iostream>
+#include <string>
+#include "lex.h"
 
 void Lex::addChar(){ // begin of addChar
     if(lexLen < MAXLEN - 1){
