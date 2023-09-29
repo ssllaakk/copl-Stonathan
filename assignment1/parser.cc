@@ -18,6 +18,7 @@ void Parser::expr(){
     }else if(nextToken == LAMBDA){
         nextToken = lex.getToken();
         if(nextToken == VAR){
+            nextToken = lex.getToken();
             expr();
             expr_();
         }else{
@@ -66,5 +67,6 @@ void Parser::parse(){
 }
 
 void Parser::error(){
+    passed = false;
     std::cout << "Error" << std::endl;
 }
