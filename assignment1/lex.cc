@@ -60,7 +60,7 @@ int Lex::lookup(char ch){ // begin of lookup
     return ERROR;
 } // end of lookup
 
-int Lex::analyse(){ // begin of analyse
+int Lex::getToken(){ // begin of getToken
     lexLen = 0;
     getNonBlank();
     switch (charClass)
@@ -102,4 +102,4 @@ int Lex::analyse(){ // begin of analyse
     }
     
     return nextToken;
-} // end of analyse
+} // end of getToken

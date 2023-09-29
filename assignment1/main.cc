@@ -1,5 +1,5 @@
 #include <iostream>
-#include "lex.h"
+#include "parser.h"
 
 // 1. Lexical analysis
 // 2. Parsen
@@ -9,17 +9,12 @@
 
 int main(){
 
-    // looped de lexer
+    // loopt de parser
     // return 1 bij error
 
-    Lex lex;
-    int token = 0;
+    Parser parser;
 
-    lex.getChar();
-    do{
-        token = lex.analyse();
-        // voer token in de parses
-    } while (token != EOF);
+    parser.parse();
 
-    return 0;
+    return parser.getPassed();
 }

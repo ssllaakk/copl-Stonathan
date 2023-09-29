@@ -8,7 +8,7 @@
 class Lex{
 
 public:
-    int analyse(); // performs lexical analysis for
+    int getToken(); // performs lexical analysis for
                    // Lambda calculus. Returns the next token
 
     void getChar(); // a function to get the next character
