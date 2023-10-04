@@ -1,5 +1,12 @@
 #include "parser.h"
 
+void Parser::start(){
+    expr();
+    if(nextToken != EOF){
+        error();
+    }
+}
+
 void Parser::expr(){
     std::cout << " Enter <expr>" << std::endl;
 
@@ -27,7 +34,7 @@ void Parser::expr(){
     }else{
         error();
     }
-
+    
     std::cout << "Exit <expr>" << std::endl;
 }
 
@@ -63,7 +70,7 @@ void Parser::expr_(){
 void Parser::parse(){
     lex.getChar();
     nextToken = lex.getToken();
-    expr();
+    start();
 }
 
 void Parser::error(){
