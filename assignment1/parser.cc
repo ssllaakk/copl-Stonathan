@@ -76,4 +76,5 @@ void Parser::parse(){
 void Parser::error(){
     passed = false;
     std::cout << "Error" << std::endl;
+    exit(1); // LET OP MEMORY OPRUIMEN
 }
