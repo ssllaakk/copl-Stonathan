@@ -8,7 +8,7 @@ void Parser::start(){
 }
 
 void Parser::expr(){
-    std::cout << " Enter <expr>" << std::endl;
+    //std::cout << " Enter <expr>" << std::endl;
 
     if(nextToken == VAR){
         nextToken = lex.getToken();
@@ -35,11 +35,11 @@ void Parser::expr(){
         error();
     }
     
-    std::cout << "Exit <expr>" << std::endl;
+    //std::cout << "Exit <expr>" << std::endl;
 }
 
 void Parser::expr_(){
-    std::cout << " Enter <expr_>" << std::endl;
+    //std::cout << " Enter <expr_>" << std::endl;
 
 
     if(nextToken == VAR){
@@ -64,10 +64,12 @@ void Parser::expr_(){
         }
     }
 
-    std::cout << "Exit <expr_>" << std::endl;
+    //std::cout << "Exit <expr_>" << std::endl;
 }
 
-void Parser::parse(){
+void Parser::parse(std::string expression){
+    currentExpression = expression;
+    lex.setExpression(expression);
     lex.getChar();
     nextToken = lex.getToken();
     start();
@@ -75,6 +77,7 @@ void Parser::parse(){
 
 void Parser::error(){
     passed = false;
-    std::cout << "Error" << std::endl;
+    std::cout << "Invalid Syntax at expression " << currentExpression << std::endl 
+    << "Exiting Program" << std::endl;
     exit(1); // LET OP MEMORY OPRUIMEN
 }

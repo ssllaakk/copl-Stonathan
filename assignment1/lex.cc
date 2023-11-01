@@ -15,15 +15,11 @@ void Lex::addChar(){ // begin of addChar
 void Lex::getChar(){ // begin of getChar
 
     // Expression end at \n
-    lineIndex++;
+    
 
-    if(!(std::cin.eof() && lineIndex >= (int)currentLine.length())){
-
-        if(lineIndex >= (int)currentLine.length()){
-            std::getline(std::cin, currentLine);
-            lineIndex = 0;
-        }
+    if(!(lineIndex >= (int)currentLine.length())){
         nextChar = currentLine[lineIndex];
+        lineIndex++;
     
         if(isalpha(nextChar)){
             charClass = LETTER;
@@ -32,7 +28,7 @@ void Lex::getChar(){ // begin of getChar
         }else{
             charClass = UNKNOWN;
         }
-    }else {
+    } else {
         charClass = EOF;
     }
 } // end of getChar
@@ -102,7 +98,7 @@ int Lex::getToken(){ // begin of getToken
     }
 
     if(!(nextToken == ERROR)){
-        std::cout << " Next token is: " << nextToken << "\t Next lexeme is " << lexeme << std::endl;
+        //std::cout << " Next token is: " << nextToken << "\t Next lexeme is " << lexeme << std::endl;
     }
     
     return nextToken;

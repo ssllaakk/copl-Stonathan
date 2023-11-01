@@ -13,7 +13,10 @@ public:
 
     void getChar(); // a function to get the next character
                     // of input and determine its character class
-
+    void setExpression(std::string expression){
+        currentLine = expression;
+        lineIndex = 0;
+    }
 private:
     // functions
     
@@ -32,8 +35,8 @@ private:
     int lexLen; // length of lexeme
     int nextToken; // token of lexeme being build;
 
-    std::string currentLine = "";
-    int lineIndex = INT8_MAX;
+    std::string currentLine;
+    int lineIndex;
 };
 
 #endif

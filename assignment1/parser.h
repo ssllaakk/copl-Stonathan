@@ -9,7 +9,7 @@ class Parser{
 public:
 
     // a function to read a token and apply the language rules
-    void parse();
+    void parse(std::string expression);
 
     // getter for bool passed
     bool getPassed(){
@@ -41,6 +41,8 @@ private:
                         // true if no errors, false if errors.
 
     Lex lex; // lexical analyser used by the parser
+
+    std::string currentExpression;
 
 
 };

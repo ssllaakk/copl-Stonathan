@@ -13,13 +13,12 @@ int main(){
     // return 1 bij error
 
     Parser parser;
-
-    parser.parse();
-
-    if(parser.getPassed()){
-        std::cout << "PASSED" << std::endl;
-    }else{
-        std::cout << "FAILED" << std::endl;
+    std::string expression;
+    
+    while(!std::cin.eof()){
+        std::getline(std::cin, expression);
+        parser.parse(expression);
+        std::cout << expression << std::endl;
     }
     
     return !(parser.getPassed());
