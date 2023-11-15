@@ -1,10 +1,8 @@
 Authors: Storm van Rooden (s3520129) & Jonathan Hosea (s3712826)
 
-The program works almost correctly \\ TO DO 
+TODO:
+1. Abstract Syntax Tree bouwen
+2. bound variables kunnen vinden in AST
+3. functies voor alpha-conversion en beta-reduction maken
+4. Herkennen wanneer (automatisch?) substitutie moet worden toegepast (expresie naast expressie?) 
 
-No deviations from the assignment as of now
-
-* Vragen werkcollege *
-
-* Wat moet er geoutput worden als er geen syntax errors zijn? (de input + of het geldig is)
-* Moet er bij een syntax error meteen geterminate worden? (ja, maar let op memory)
