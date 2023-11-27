@@ -9,11 +9,19 @@ class Tree{
 
 public:
 
+    Tree(){
+        root = nullptr;
+    }
+
     void destroy(); // een functie om de boom te verwijderen en geheugen vrij te maken.
                     // zet root = nullptr
 
     Node* getRoot(){
         return root;
+    }
+
+    void setRoot(Node* root_){
+        root = root_;
     }
 
 private:

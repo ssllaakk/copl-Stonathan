@@ -1,33 +1,43 @@
 #include "parser.h"
 
 void Parser::start(){
+    ast.destroy();
+    ast.setRoot(new Node());
     expr();
     if(nextToken != EOF){
         error();
     }
 }
 
-void Parser::expr(){
+Node* Parser::expr(){
     //std::cout << " Enter <expr>" << std::endl;
+    Node* n = new Node();
 
     if(nextToken == VAR){
+        n->setToken(VAR);
         nextToken = lex.getToken();
-        expr_();
+        // n is n of @ met n als linker kind en expr_ als rechterkind
+        return buildSubTree(n , expr_());
     }else if(nextToken == LEFT_PAREN){
         nextToken = lex.getToken();
-        expr();
+        // n is de expressie tussen haakjes
+        n = expr();
         if(nextToken == RIGHT_PAREN){
             nextToken = lex.getToken();
-            expr_();
+            // n is n of @ met n als linker kind en expr_ als rechterkind
+            return buildSubTree(n , expr_());
         }else{
             error();
         }
     }else if(nextToken == LAMBDA){
+        n->setToken(LAMBDA);
         nextToken = lex.getToken();
         if(nextToken == VAR){
+            //n->setVAR()
             nextToken = lex.getToken();
-            expr();
-            expr_();
+            // lambda node aanmaken en kind eronder plakken     
+            n->setLeftChild(buildSubTree(expr() , expr_()));
+            return n;
         }else{
             error();
         }
@@ -38,7 +48,7 @@ void Parser::expr(){
     //std::cout << "Exit <expr>" << std::endl;
 }
 
-void Parser::expr_(){
+Node* Parser::expr_(){
     //std::cout << " Enter <expr_>" << std::endl;
 
 
@@ -64,6 +74,8 @@ void Parser::expr_(){
         }
     }
 
+    return nullptr;
+
     //std::cout << "Exit <expr_>" << std::endl;
 }
 
@@ -80,4 +92,18 @@ void Parser::error(){
     std::cout << "Invalid Syntax at expression " << currentExpression << std::endl 
     << "Exiting Program" << std::endl;
     exit(1); // LET OP MEMORY OPRUIMEN
+}
+
+Node*
+Parser::buildSubTree(Node* left, Node* right){
+    if(right != nullptr){
+        // bouw @ met twee kinderen,
+        // waarvan expr links, expr_ rechter
+        Node* atNode = new Node();
+        atNode->setToken(AT_SIGN);
+        atNode->setLeftChild(left);
+        atNode->setRightChild(right);
+        return atNode;
+    }
+    return left;
 }
