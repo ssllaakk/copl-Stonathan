@@ -51,25 +51,34 @@ Node* Parser::expr(){
 
 Node* Parser::expr_(){
     //std::cout << " Enter <expr_>" << std::endl;
-
+     Node* n = new Node();
 
     if(nextToken.code == TokenCodes::VAR){
+        n->setTokenCode(TokenCodes::VAR);
+        n->setTokenVar(nextToken.var);
         nextToken = lex.getToken();
-        expr_();
+        // n is VAR of @ met VAR als linker kind en expr_ als rechterkind
+        return buildSubTree(n , expr_());
     }else if(nextToken.code == TokenCodes::LEFT_PAREN){
         nextToken = lex.getToken();
-        expr();
+        // n is de expressie tussen haakjes
+        n = expr();
         if(nextToken.code == TokenCodes::RIGHT_PAREN){
             nextToken = lex.getToken();
-            expr_();
+            // n is (expr) of @ met expr als linker kind en expr_ als rechterkind
+            return buildSubTree(n , expr_());
         }else{
             error();
         }
     }else if(nextToken.code == TokenCodes::LAMBDA){
+        n->setTokenCode(TokenCodes::LAMBDA);
         nextToken = lex.getToken();
         if(nextToken.code == TokenCodes::VAR){
-            expr();
-            expr_();
+            n->setTokenVar(nextToken.var);
+            nextToken = lex.getToken();
+            // lambda node aanmaken en kind eronder plakken     
+            n->setLeftChild(buildSubTree(expr() , expr_()));
+            return n;
         }else{
             error();
         }
