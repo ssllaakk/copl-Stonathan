@@ -1,7 +1,7 @@
 
 all: main
 
-main: main.o parser.o lex.o tree.o
+main: main.o parser.o
 	g++ -Wall -Wextra main.o parser.o lex.o tree.o -o main
 
 main.o: main.cc parser.o
