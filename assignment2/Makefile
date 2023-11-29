@@ -1,26 +1,27 @@
-CC=gcc
-CXX=g++
-RM=rm -f
-
-SRCS=main.cc parser.cc lex.cc constantes.h
-OBJS=$(subst .cc,.o,$(SRCS))
 
 all: main
 
-main: $(OBJS)
-	$(CXX) -Wall -Wextra -o main $(OBJS)
+main: main.o parser.o lex.o tree.o
+	g++ -Wall -Wextra main.o parser.o lex.o tree.o -o main
 
-main.o: main.cc parser.h
-parser.o: parser.cc parser.h
-lex.o: lex.cc lex.h
-constantes.o: constantes.h
+main.o: main.cc parser.o
+	g++ -Wall -Wextra -c main.cc
+
+parser.o: parser.cc parser.h lex.o tree.o
+	g++ -Wall -Wextra -c parser.cc
+
+lex.o: lex.cc lex.h token.h constantes.h
+	g++ -Wall -Wextra -c lex.cc
+
+tree.o: tree.cc tree.h node.h token.h constantes.h
+	g++ -Wall -Wextra -c tree.cc
+
+
 
 clean:
-	$(RM) $(OBJS)
+	rm -f *.o 
+	rm main
 	
-distclean: clean
-	$(RM) main
-
 build: main
 	echo finished
 
