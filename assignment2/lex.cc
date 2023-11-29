@@ -22,83 +22,79 @@ void Lex::getChar(){ // begin of getChar
         lineIndex++;
     
         if(isalpha(nextChar)){
-            charClass = LETTER;
+            charClass = CharacterClass::LETTER;
         }else if(isdigit(nextChar)){
-            charClass = DIGIT;
+            charClass = CharacterClass::DIGIT;
         }else{
-            charClass = UNKNOWN;
+            charClass = CharacterClass::UNKNOWN;
         }
     } else {
-        charClass = EOF;
+        charClass = CharacterClass::EOF_;
     }
 } // end of getChar
 
 void Lex::getNonBlank(){
-    while((isspace(nextChar) || nextChar == 0) && !(charClass == EOF)){
+    while((isspace(nextChar) || nextChar == 0) && !(charClass == CharacterClass::EOF_)){
         getChar();
     }
 }
 
-int Lex::lookup(char ch){ // begin of lookup
+TokenCodes Lex::lookup(char ch){ // begin of lookup
     switch (ch)
     {
     case '(':
         addChar();
-        return LEFT_PAREN;
+        return TokenCodes::LEFT_PAREN;
         break;
 
     case ')':
         addChar();
-        return RIGHT_PAREN;
+        return TokenCodes::RIGHT_PAREN;
         break;
     
     case '\\':
         addChar();
-        return LAMBDA;
+        return TokenCodes::LAMBDA;
         break;
     }
-    return ERROR;
+    return TokenCodes::ERROR;
 } // end of lookup
 
-int Lex::getToken(){ // begin of getToken
+Token Lex::getToken(){ // begin of getToken
     lexLen = 0;
     getNonBlank();
     switch (charClass)
     {
-    case LETTER:
-        while(charClass == LETTER || charClass == DIGIT){
+    case CharacterClass::LETTER:
+        while(charClass == CharacterClass::LETTER || charClass == CharacterClass::DIGIT){
             addChar();
             getChar();
         }
-        nextToken = VAR;
+        nextToken.code = TokenCodes::VAR;
         break;
-    case DIGIT:
+    case CharacterClass::DIGIT:
         std::cerr << "Syntax error at charater " << nextChar
          << ". Variable may not start with a digit " << nextChar <<  std::endl;
         getChar();
-        nextToken = ERROR;
+        nextToken.code = TokenCodes::ERROR;
         break;
 
-    case UNKNOWN:
-        nextToken = lookup(nextChar);
-        if(nextToken == ERROR){
-            std::cerr << " Next token is: " << nextToken << "\t Character "
+    case CharacterClass::UNKNOWN:
+        nextToken.code = lookup(nextChar);
+        if(nextToken.code == TokenCodes::ERROR){
+            std::cerr << "Character "
                      << nextChar << " is unkown " << std::endl;
         }
         getChar();
         break;
 
-    case EOF:
-        nextToken = EOF;
+    case CharacterClass::EOF_:
+        nextToken.code = TokenCodes::ERROR;
         lexeme[0] = 'E';
         lexeme[1] = 'O';
         lexeme[2] = 'F';
         lexeme[3] = 0;
         break;
-    }
-
-    if(!(nextToken == ERROR)){
-        //std::cout << " Next token is: " << nextToken << "\t Next lexeme is " << lexeme << std::endl;
     }
     
     return nextToken;

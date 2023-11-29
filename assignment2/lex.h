@@ -1,6 +1,6 @@
 #include <iostream>
 #include "constantes.h"
-
+#include "token.h"
 
 #ifndef LEXICAL_ANALYSER
 #define LEXICAL_ANALYSER
@@ -8,7 +8,7 @@
 class Lex{
 
 public:
-    int getToken(); // performs lexical analysis for
+    Token getToken(); // performs lexical analysis for
                    // Lambda calculus. Returns the next token
 
     void getChar(); // a function to get the next character
@@ -22,18 +22,18 @@ private:
     
     void addChar(); // a function to add nextChar to lexeme
 
-    int lookup(char ch); // function to lookup operators
+    TokenCodes lookup(char ch); // function to lookup operators
                          // and parantheses which returns their token code
     void getNonBlank(); // a function to call getChar until it returns a 
                         // non-whitespace character
 
     // variables
 
-    int charClass; // character class of nextChar
+    CharacterClass charClass; // character class of nextChar
     char lexeme[MAXLEN]; // lexeme of nextToken
     char nextChar; // character currently analysis
     int lexLen; // length of lexeme
-    int nextToken; // token of lexeme being build;
+    Token nextToken; // token of lexeme being build;
 
     std::string currentLine;
     int lineIndex;
