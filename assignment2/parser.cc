@@ -4,7 +4,7 @@ void Parser::start(){
     ast.destroy();
     ast.setRoot(new Node());
     expr();
-    if(nextToken != EOF){
+    if(nextToken.code != TokenCodes::EOF_){
         error();
     }
 }
@@ -13,26 +13,26 @@ Node* Parser::expr(){
     //std::cout << " Enter <expr>" << std::endl;
     Node* n = new Node();
 
-    if(nextToken == VAR){
-        n->setToken(VAR);
+    if(nextToken.code == TokenCodes::VAR){
+        n->setToken(TokenCodes::VAR);
         nextToken = lex.getToken();
-        // n is n of @ met n als linker kind en expr_ als rechterkind
+        // n is VAR of @ met VAR als linker kind en expr_ als rechterkind
         return buildSubTree(n , expr_());
-    }else if(nextToken == LEFT_PAREN){
+    }else if(nextToken.code == TokenCodes::LEFT_PAREN){
         nextToken = lex.getToken();
         // n is de expressie tussen haakjes
         n = expr();
-        if(nextToken == RIGHT_PAREN){
+        if(nextToken.code == TokenCodes::RIGHT_PAREN){
             nextToken = lex.getToken();
-            // n is n of @ met n als linker kind en expr_ als rechterkind
+            // n is (expr) of @ met expr als linker kind en expr_ als rechterkind
             return buildSubTree(n , expr_());
         }else{
             error();
         }
-    }else if(nextToken == LAMBDA){
+    }else if(nextToken.code == TokenCodes::LAMBDA){
         n->setToken(LAMBDA);
         nextToken = lex.getToken();
-        if(nextToken == VAR){
+        if(nextToken.code == TokenCodes::VAR){
             //n->setVAR()
             nextToken = lex.getToken();
             // lambda node aanmaken en kind eronder plakken     
@@ -52,21 +52,21 @@ Node* Parser::expr_(){
     //std::cout << " Enter <expr_>" << std::endl;
 
 
-    if(nextToken == VAR){
+    if(nextToken.code == TokenCodes::VAR){
         nextToken = lex.getToken();
         expr_();
-    }else if(nextToken == LEFT_PAREN){
+    }else if(nextToken.code == TokenCodes::LEFT_PAREN){
         nextToken = lex.getToken();
         expr();
-        if(nextToken == RIGHT_PAREN){
+        if(nextToken.code == TokenCodes::RIGHT_PAREN){
             nextToken = lex.getToken();
             expr_();
         }else{
             error();
         }
-    }else if(nextToken == LAMBDA){
+    }else if(nextToken.code == TokenCodes::LAMBDA){
         nextToken = lex.getToken();
-        if(nextToken == VAR){
+        if(nextToken.code == TokenCodes::VAR){
             expr();
             expr_();
         }else{

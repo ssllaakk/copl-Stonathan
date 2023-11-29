@@ -17,11 +17,11 @@ const int MAXLEN = 100;
 // const int ERROR = 404;
 
 enum class CharacterClass{
-    LETTER,DIGIT,UNKNOWN, EOF_
+    LETTER, DIGIT, UNKNOWN, EOF_
 };
 
 enum class TokenCodes {
-    VAR,LAMBDA, LEFT_PAREN,RIGHT_PAREN,AT_SIGN,ERROR
+    VAR, LAMBDA, LEFT_PAREN, RIGHT_PAREN, AT_SIGN, ERROR, EOF_
 };
 
 

@@ -1,5 +1,6 @@
 #include "lex.h"
 #include "tree.h"
+#include "token.h"
 
 #ifndef PARSER
 #define PARSER
@@ -40,7 +41,7 @@ private:
 
     // variables
     
-    int nextToken;
+    Token nextToken;
     bool passed = true; // a variable that keeps track if the parser detected errors
                         // true if no errors, false if errors.
 
