@@ -1,3 +1,5 @@
+#include "token.h"
+
 #ifndef NODE
 #define NODE
 
