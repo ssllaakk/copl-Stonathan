@@ -14,7 +14,8 @@ Node* Parser::expr(){
     Node* n = new Node();
 
     if(nextToken.code == TokenCodes::VAR){
-        n->setToken(TokenCodes::VAR);
+        n->setTokenCode(TokenCodes::VAR);
+        n->setTokenVar(nextToken.var);
         nextToken = lex.getToken();
         // n is VAR of @ met VAR als linker kind en expr_ als rechterkind
         return buildSubTree(n , expr_());
@@ -30,10 +31,10 @@ Node* Parser::expr(){
             error();
         }
     }else if(nextToken.code == TokenCodes::LAMBDA){
-        n->setToken(LAMBDA);
+        n->setTokenCode(TokenCodes::LAMBDA);
         nextToken = lex.getToken();
         if(nextToken.code == TokenCodes::VAR){
-            //n->setVAR()
+            n->setTokenVar(nextToken.var);
             nextToken = lex.getToken();
             // lambda node aanmaken en kind eronder plakken     
             n->setLeftChild(buildSubTree(expr() , expr_()));
@@ -100,7 +101,7 @@ Parser::buildSubTree(Node* left, Node* right){
         // bouw @ met twee kinderen,
         // waarvan expr links, expr_ rechter
         Node* atNode = new Node();
-        atNode->setToken(AT_SIGN);
+        atNode->setTokenCode(TokenCodes::AT_SIGN);
         atNode->setLeftChild(left);
         atNode->setRightChild(right);
         return atNode;

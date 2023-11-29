@@ -89,7 +89,7 @@ Token Lex::getToken(){ // begin of getToken
         break;
 
     case CharacterClass::EOF_:
-        nextToken.code = TokenCodes::ERROR;
+        nextToken.code = TokenCodes::EOF_;
         lexeme[0] = 'E';
         lexeme[1] = 'O';
         lexeme[2] = 'F';
@@ -97,5 +97,6 @@ Token Lex::getToken(){ // begin of getToken
         break;
     }
     
+    nextToken.var = lexeme;
     return nextToken;
 } // end of getToken

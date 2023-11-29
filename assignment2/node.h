@@ -26,16 +26,24 @@ public:
         return rightChild;
     }
 
-    void setToken(int token_){
-        token = token_;
+    void setTokenCode(TokenCodes nwCode){
+        token.code = nwCode;
+    }
+
+    void setTokenVar(std::string nwVar){
+        token.var = nwVar;   
     }
     
-    int getToken(){
-        return token;
+    TokenCodes getTokenCode(){
+        return token.code;
+    }
+
+    std::string getTokenVar(){
+        return token.var;
     }
     
 private:
-    int token;
+    Token token;
     Node* leftChild;
     Node* rightChild;
 };
