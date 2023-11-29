@@ -1,5 +1,4 @@
 #include <iostream>
-#include "constantes.h"
 #include "token.h"
 
 #ifndef LEXICAL_ANALYSER

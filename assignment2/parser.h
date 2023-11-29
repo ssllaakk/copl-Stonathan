@@ -1,6 +1,5 @@
 #include "lex.h"
 #include "tree.h"
-#include "token.h"
 
 #ifndef PARSER
 #define PARSER
