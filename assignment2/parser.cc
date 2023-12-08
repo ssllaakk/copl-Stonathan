@@ -41,10 +41,12 @@ Node* Parser::expr(){
             n->setTokenVar(nextToken.var);
             nextToken = lex.getToken();
             // lambda node aanmaken en kind eronder plakken     
-            Node* l = expr();
-            Node* r = expr_();  
-            n->setLeftChild(buildSubTree(l,r));
+            Node* kind = expr();
+            n->setLeftChild(kind);
+            Node* buurman = expr_();
+            n = buildSubTree(n, buurman);
             // std::cout << "Exit <expr>" << std::endl;
+
             return n;
         }else{
             error();
