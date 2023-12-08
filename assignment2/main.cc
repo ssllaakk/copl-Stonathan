@@ -21,5 +21,8 @@ int main(){
         std::cout << expression << std::endl;
     }
     
+    if(parser.getPassed()){
+        parser.dot();
+    }
     return !(parser.getPassed());
 }

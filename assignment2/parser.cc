@@ -132,3 +132,7 @@ Parser::buildSubTree(Node* left, Node* right){
     }
     return left;
 }
+
+void Parser::dot(){
+    ast.dot("test.dot");
+}

@@ -27,7 +27,7 @@ std::string Token::toString()
             case TokenCodes::EOF_:
                 s = "EOF_";
                 break;
-            return s;
-            
         }
+        s += " " + var;
+        return s;
     }

@@ -43,6 +43,10 @@ public:
     std::string getTokenVar(){
         return token.var;
     }
+
+    std::string getTokenString(){
+        return token.toString();
+    }
     
 private:
     Token token;

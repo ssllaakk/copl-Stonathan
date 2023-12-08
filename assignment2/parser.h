@@ -17,6 +17,8 @@ public:
         return passed;
     }
 
+    void dot();
+    
 private:
 
     // functions
@@ -39,7 +41,6 @@ private:
     Node* buildSubTree(Node* left, Node* right);
 
     // variables
-    
     Token nextToken;
     bool passed = true; // a variable that keeps track if the parser detected errors
                         // true if no errors, false if errors.
