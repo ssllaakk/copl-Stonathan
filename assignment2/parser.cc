@@ -2,8 +2,7 @@
 
 void Parser::start(){
     ast.destroy();
-    ast.setRoot(new Node());
-    ast.getRoot()->setLeftChild(expr());
+    ast.setRoot(expr());
     if(nextToken.code != TokenCodes::EOF_){
         error();
     }

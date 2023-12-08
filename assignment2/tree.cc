@@ -17,12 +17,7 @@ bool Tree::dot(const std::string & filename){
     if(root == nullptr) return false;
     std::ofstream file(filename);
     dotTeller = 0;
-    
-    
     file << "digraph G {" << std::endl;
-    file << "  " << std::to_string(dotTeller) << "[label=\"" 
-         << root->getTokenString() << "\"]" << std::endl;
-    dotTeller++;
     dotRec(file, root, 0);
     file << "}" << std::endl;
 

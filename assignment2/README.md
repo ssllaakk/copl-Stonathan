@@ -13,3 +13,5 @@ TODO:
 
 BUGS:
 - lege regels na de laatste expressie zorgt voor een foute expressie
+- de parser moet weten wanneer een subboom / expressie stop.
+  bij bijvoorbeeld \x a b staat eigenlijk ((\x (a)) b), maar de boom wordt nu gebouwd als (\x (a b)).
