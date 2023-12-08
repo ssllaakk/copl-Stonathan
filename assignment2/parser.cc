@@ -3,14 +3,14 @@
 void Parser::start(){
     ast.destroy();
     ast.setRoot(new Node());
-    expr();
+    ast.getRoot()->setLeftChild(expr());
     if(nextToken.code != TokenCodes::EOF_){
         error();
     }
 }
 
 Node* Parser::expr(){
-    //std::cout << " Enter <expr>" << std::endl;
+    //std::cout << " Enter <expr> " << std::endl;
     Node* n = new Node();
 
     if(nextToken.code == TokenCodes::VAR){
@@ -18,7 +18,9 @@ Node* Parser::expr(){
         n->setTokenVar(nextToken.var);
         nextToken = lex.getToken();
         // n is VAR of @ met VAR als linker kind en expr_ als rechterkind
-        return buildSubTree(n , expr_());
+        n = buildSubTree(n , expr_());
+        // std::cout << "Exit <expr>" << std::endl;
+        return n;
     }else if(nextToken.code == TokenCodes::LEFT_PAREN){
         nextToken = lex.getToken();
         // n is de expressie tussen haakjes
@@ -26,7 +28,9 @@ Node* Parser::expr(){
         if(nextToken.code == TokenCodes::RIGHT_PAREN){
             nextToken = lex.getToken();
             // n is (expr) of @ met expr als linker kind en expr_ als rechterkind
-            return buildSubTree(n , expr_());
+            n = buildSubTree(n , expr_());
+            // std::cout << "Exit <expr>" << std::endl;
+            return n;
         }else{
             error();
         }
@@ -37,7 +41,10 @@ Node* Parser::expr(){
             n->setTokenVar(nextToken.var);
             nextToken = lex.getToken();
             // lambda node aanmaken en kind eronder plakken     
-            n->setLeftChild(buildSubTree(expr() , expr_()));
+            Node* l = expr();
+            Node* r = expr_();  
+            n->setLeftChild(buildSubTree(l,r));
+            // std::cout << "Exit <expr>" << std::endl;
             return n;
         }else{
             error();
@@ -46,12 +53,12 @@ Node* Parser::expr(){
         error();
     }
     
+    // std::cout << "Exit <expr>" << std::endl;
     return nullptr;
-    //std::cout << "Exit <expr>" << std::endl;
 }
 
 Node* Parser::expr_(){
-    //std::cout << " Enter <expr_>" << std::endl;
+    // std::cout << " Enter <expr_>" << std::endl;
      Node* n = new Node();
 
     if(nextToken.code == TokenCodes::VAR){
@@ -59,7 +66,9 @@ Node* Parser::expr_(){
         n->setTokenVar(nextToken.var);
         nextToken = lex.getToken();
         // n is VAR of @ met VAR als linker kind en expr_ als rechterkind
-        return buildSubTree(n , expr_());
+        n = buildSubTree(n , expr_());
+        // std::cout << "Exit <expr_>" << std::endl;
+        return n;
     }else if(nextToken.code == TokenCodes::LEFT_PAREN){
         nextToken = lex.getToken();
         // n is de expressie tussen haakjes
@@ -67,7 +76,9 @@ Node* Parser::expr_(){
         if(nextToken.code == TokenCodes::RIGHT_PAREN){
             nextToken = lex.getToken();
             // n is (expr) of @ met expr als linker kind en expr_ als rechterkind
-            return buildSubTree(n , expr_());
+            n = buildSubTree(n , expr_());
+            // std::cout << "Exit <expr_>" << std::endl;
+            return n;
         }else{
             error();
         }
@@ -77,17 +88,20 @@ Node* Parser::expr_(){
         if(nextToken.code == TokenCodes::VAR){
             n->setTokenVar(nextToken.var);
             nextToken = lex.getToken();
-            // lambda node aanmaken en kind eronder plakken     
-            n->setLeftChild(buildSubTree(expr() , expr_()));
+            // lambda node aanmaken en kind eronder plakken   
+            Node* l = expr();
+            Node* r = expr_();  
+            n->setLeftChild(buildSubTree(l,r));
+            // std::cout << "Exit <expr_>" << std::endl;
             return n;
         }else{
             error();
         }
     }
 
+    //std::cout << "Exit <expr_>" << std::endl;
     return nullptr;
 
-    //std::cout << "Exit <expr_>" << std::endl;
 }
 
 void Parser::parse(std::string expression){

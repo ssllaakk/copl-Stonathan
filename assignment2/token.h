@@ -9,6 +9,7 @@ struct Token
     TokenCodes code;
     std::string var;
     
+    std::string toString();
 };
 
 #endif

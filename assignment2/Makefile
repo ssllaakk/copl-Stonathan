@@ -2,7 +2,7 @@
 all: main
 
 main: main.o parser.o
-	g++ -Wall -Wextra main.o parser.o lex.o tree.o -o main
+	g++ -Wall -Wextra main.o parser.o lex.o tree.o token.o -o main
 
 main.o: main.cc parser.o
 	g++ -Wall -Wextra -c main.cc
@@ -13,10 +13,11 @@ parser.o: parser.cc parser.h lex.o tree.o
 lex.o: lex.cc lex.h token.h constantes.h
 	g++ -Wall -Wextra -c lex.cc
 
-tree.o: tree.cc tree.h node.h token.h constantes.h
+tree.o: tree.cc tree.h node.h token.o constantes.h
 	g++ -Wall -Wextra -c tree.cc
 
-
+token.o: token.cc token.h constantes.h
+	g++ -Wall -Wextra -c token.cc
 
 clean:
 	rm -f *.o 

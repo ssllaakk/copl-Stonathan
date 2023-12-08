@@ -98,5 +98,10 @@ Token Lex::getToken(){ // begin of getToken
     }
     
     nextToken.var = lexeme;
+    // std::cout << "TokenCode: " << nextToken.toString();
+    // if(nextToken.code == TokenCodes::VAR){
+    //     std::cout << " " << nextToken.var;
+    // }
+    // std::cout << std::endl;
     return nextToken;
 } // end of getToken
