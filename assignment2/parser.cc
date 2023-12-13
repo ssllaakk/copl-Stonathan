@@ -10,55 +10,66 @@ void Parser::start(){
 
 Node* Parser::expr(){
     std::cout << " Enter <expr> " << std::endl;
-   
-    lexpr();
-    expr_();
+    
+    Node* left = lexpr(); // <-- linker kind van @
+    Node* right = expr_(); // <-- rechter kind van @
 
     std::cout << "Exit <expr>" << std::endl;
-    return nullptr;
+    return buildSubTree(left,right);
 }
 
 Node* Parser::expr_(){
     std::cout << " Enter <expr_>" << std::endl;
+    Node* n = nullptr;
 
-    // Hoe bepaal je of je de empty string moet nemen?
     if(nextToken.code == TokenCodes::LAMBDA ||
        nextToken.code == TokenCodes::VAR ||
        nextToken.code == TokenCodes::LEFT_PAREN){
-        lexpr();
-        expr_();
+        Node* left = lexpr(); // <-- linker kind van @
+        Node* right = expr_(); // <-- rechter kind van @
+
+        n = buildSubTree(left,right);
     }
 
     std::cout << "Exit <expr_>" << std::endl;
-    return nullptr;
+    return n;
 }
 
 Node* Parser::lexpr(){
     std::cout << " Enter <lexpr>" << std::endl;
+    Node* n;
 
     if(nextToken.code == TokenCodes::LAMBDA){
         updateToken();
         if(nextToken.code == TokenCodes::VAR){
-            /* TODO: Maak Lambda token aan */
+            /* Maak Lambda token aan */
+            n = new Node();
+
+            n->setTokenCode(TokenCodes::LAMBDA);
+            n->setTokenVar(nextToken.var);
             
-            lexpr();
+            updateToken();
+
+            Node* child = lexpr();
+            n->setLeftChild(child);
         }else{
             error();
         }
     }else{
-        pexpr();
+        n = pexpr();
     }
     
     std::cout << "Exit <lexpr>" << std::endl;
-    return nullptr;
+    return n;
 }
 
 Node* Parser::pexpr(){
     std::cout << " Enter <pexpr>" << std::endl;
+    Node* n;
 
     if(nextToken.code == TokenCodes::LEFT_PAREN){
         updateToken();;
-        expr();
+        n = expr();
         if(nextToken.code == TokenCodes::RIGHT_PAREN){
             updateToken();;
         }else{
@@ -66,13 +77,18 @@ Node* Parser::pexpr(){
         }
     }else if(nextToken.code == TokenCodes::VAR){
         /* Maak VAR token aan */
+        n = new Node();
+
+        n->setTokenCode(TokenCodes::VAR);
+        n->setTokenVar(nextToken.var);
+
         updateToken();
     }else {
         error();
     }
 
     std::cout << "Exit <pexpr>" << std::endl;
-    return nullptr;
+    return n;
 }
 
 void Parser::parse(std::string expression){
