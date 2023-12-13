@@ -9,33 +9,35 @@ void Parser::start(){
 }
 
 Node* Parser::expr(){
-    //std::cout << " Enter <expr> " << std::endl;
+    std::cout << " Enter <expr> " << std::endl;
    
-   lexpr();
-   expr_();
+    lexpr();
+    expr_();
 
-    // std::cout << "Exit <expr>" << std::endl;
+    std::cout << "Exit <expr>" << std::endl;
     return nullptr;
 }
 
 Node* Parser::expr_(){
-    // std::cout << " Enter <expr_>" << std::endl;
+    std::cout << " Enter <expr_>" << std::endl;
 
     // Hoe bepaal je of je de empty string moet nemen?
-    if(nextToken.code != TokenCodes::EOF_){
+    if(nextToken.code == TokenCodes::LAMBDA ||
+       nextToken.code == TokenCodes::VAR ||
+       nextToken.code == TokenCodes::LEFT_PAREN){
         lexpr();
         expr_();
     }
 
-    //std::cout << "Exit <expr_>" << std::endl;
+    std::cout << "Exit <expr_>" << std::endl;
     return nullptr;
 }
 
 Node* Parser::lexpr(){
-    // std::cout << " Enter <lexpr>" << std::endl;
+    std::cout << " Enter <lexpr>" << std::endl;
 
     if(nextToken.code == TokenCodes::LAMBDA){
-        nextToken = lex.getToken();
+        updateToken();
         if(nextToken.code == TokenCodes::VAR){
             /* TODO: Maak Lambda token aan */
             
@@ -47,42 +49,45 @@ Node* Parser::lexpr(){
         pexpr();
     }
     
+    std::cout << "Exit <lexpr>" << std::endl;
     return nullptr;
-    //std::cout << "Exit <lexpr>" << std::endl;
 }
 
 Node* Parser::pexpr(){
-    // std::cout << " Enter <pexpr>" << std::endl;
+    std::cout << " Enter <pexpr>" << std::endl;
 
     if(nextToken.code == TokenCodes::LEFT_PAREN){
-        nextToken = lex.getToken();
+        updateToken();;
         expr();
-        if(nextToken.code != TokenCodes::RIGHT_PAREN){
+        if(nextToken.code == TokenCodes::RIGHT_PAREN){
+            updateToken();;
+        }else{
             error();
         }
     }else if(nextToken.code == TokenCodes::VAR){
         /* Maak VAR token aan */
-        nextToken = lex.getToken();
+        updateToken();
     }else {
         error();
     }
 
+    std::cout << "Exit <pexpr>" << std::endl;
     return nullptr;
-    //std::cout << "Exit <pexpr>" << std::endl;
 }
 
 void Parser::parse(std::string expression){
     currentExpression = expression;
     lex.setExpression(expression);
     lex.getChar();
-    nextToken = lex.getToken();
+    updateToken();
     start();
 }
 
 void Parser::error(){
     passed = false;
-    std::cout << "Invalid Syntax at expression " << currentExpression << std::endl 
-    << "Exiting Program" << std::endl;
+    std::cout << "Invalid Syntax at expression " << currentExpression << std::endl;
+    std::cout << "Error at token: " << nextToken.toString() << std::endl;
+    std::cout << "Exiting Program" << std::endl;
     exit(1); // LET OP MEMORY OPRUIMEN
 }
 
@@ -102,4 +107,9 @@ Parser::buildSubTree(Node* left, Node* right){
 
 void Parser::dot(){
     ast.dot("test.dot");
+}
+
+void Parser::updateToken(){
+    nextToken = lex.getToken();
+    std::cout << "new Token: " << nextToken.toString() << std::endl;
 }

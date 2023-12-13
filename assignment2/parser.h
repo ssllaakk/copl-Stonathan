@@ -44,6 +44,8 @@ private:
 
     // Builds a subtree with an @ if right is not a nullptr
     Node* buildSubTree(Node* left, Node* right);
+    
+    void updateToken();
 
     // variables
     Token nextToken;
