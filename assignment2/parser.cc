@@ -25,6 +25,7 @@ Node* Parser::expr_(){
     if(nextToken.code == TokenCodes::LAMBDA ||
        nextToken.code == TokenCodes::VAR ||
        nextToken.code == TokenCodes::LEFT_PAREN){
+        
         Node* left = lexpr(); // <-- linker kind van @
         Node* right = expr_(); // <-- rechter kind van @
 
