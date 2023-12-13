@@ -10,99 +10,65 @@ void Parser::start(){
 
 Node* Parser::expr(){
     //std::cout << " Enter <expr> " << std::endl;
-    Node* n = new Node();
+   
+   lexpr();
+   expr_();
 
-    if(nextToken.code == TokenCodes::VAR){
-        n->setTokenCode(TokenCodes::VAR);
-        n->setTokenVar(nextToken.var);
-        nextToken = lex.getToken();
-        // n is VAR of @ met VAR als linker kind en expr_ als rechterkind
-        n = buildSubTree(n , expr_());
-        // std::cout << "Exit <expr>" << std::endl;
-        return n;
-    }else if(nextToken.code == TokenCodes::LEFT_PAREN){
-        nextToken = lex.getToken();
-        // n is de expressie tussen haakjes
-        n = expr();
-        if(nextToken.code == TokenCodes::RIGHT_PAREN){
-            nextToken = lex.getToken();
-            // n is (expr) of @ met expr als linker kind en expr_ als rechterkind
-            n = buildSubTree(n , expr_());
-            // std::cout << "Exit <expr>" << std::endl;
-            return n;
-        }else{
-            error();
-        }
-    }else if(nextToken.code == TokenCodes::LAMBDA){
-        n->setTokenCode(TokenCodes::LAMBDA);
-        nextToken = lex.getToken();
-        if(nextToken.code == TokenCodes::VAR){
-            n->setTokenVar(nextToken.var);
-            nextToken = lex.getToken();
-            // lambda node aanmaken en kind eronder plakken     
-            Node* kind = expr();
-            n->setLeftChild(kind);
-            Node* buurman = expr_();
-            n = buildSubTree(n, buurman);
-            // std::cout << "Exit <expr>" << std::endl;
-
-            return n;
-        }else{
-            error();
-        }
-    }else{
-        error();
-    }
-    
     // std::cout << "Exit <expr>" << std::endl;
     return nullptr;
 }
 
 Node* Parser::expr_(){
     // std::cout << " Enter <expr_>" << std::endl;
-     Node* n = new Node();
 
-    if(nextToken.code == TokenCodes::VAR){
-        n->setTokenCode(TokenCodes::VAR);
-        n->setTokenVar(nextToken.var);
-        nextToken = lex.getToken();
-        // n is VAR of @ met VAR als linker kind en expr_ als rechterkind
-        n = buildSubTree(n , expr_());
-        // std::cout << "Exit <expr_>" << std::endl;
-        return n;
-    }else if(nextToken.code == TokenCodes::LEFT_PAREN){
-        nextToken = lex.getToken();
-        // n is de expressie tussen haakjes
-        n = expr();
-        if(nextToken.code == TokenCodes::RIGHT_PAREN){
-            nextToken = lex.getToken();
-            // n is (expr) of @ met expr als linker kind en expr_ als rechterkind
-            n = buildSubTree(n , expr_());
-            // std::cout << "Exit <expr_>" << std::endl;
-            return n;
-        }else{
-            error();
-        }
-    }else if(nextToken.code == TokenCodes::LAMBDA){
-        n->setTokenCode(TokenCodes::LAMBDA);
-        nextToken = lex.getToken();
-        if(nextToken.code == TokenCodes::VAR){
-            n->setTokenVar(nextToken.var);
-            nextToken = lex.getToken();
-            // lambda node aanmaken en kind eronder plakken   
-            Node* l = expr();
-            Node* r = expr_();  
-            n->setLeftChild(buildSubTree(l,r));
-            // std::cout << "Exit <expr_>" << std::endl;
-            return n;
-        }else{
-            error();
-        }
+    // Hoe bepaal je of je de empty string moet nemen?
+    if(nextToken.code != TokenCodes::EOF_){
+        lexpr();
+        expr_();
     }
 
     //std::cout << "Exit <expr_>" << std::endl;
     return nullptr;
+}
 
+Node* Parser::lexpr(){
+    // std::cout << " Enter <lexpr>" << std::endl;
+
+    if(nextToken.code == TokenCodes::LAMBDA){
+        nextToken = lex.getToken();
+        if(nextToken.code == TokenCodes::VAR){
+            /* TODO: Maak Lambda token aan */
+            
+            lexpr();
+        }else{
+            error();
+        }
+    }else{
+        pexpr();
+    }
+    
+    return nullptr;
+    //std::cout << "Exit <lexpr>" << std::endl;
+}
+
+Node* Parser::pexpr(){
+    // std::cout << " Enter <pexpr>" << std::endl;
+
+    if(nextToken.code == TokenCodes::LEFT_PAREN){
+        nextToken = lex.getToken();
+        expr();
+        if(nextToken.code != TokenCodes::RIGHT_PAREN){
+            error();
+        }
+    }else if(nextToken.code == TokenCodes::VAR){
+        /* Maak VAR token aan */
+        nextToken = lex.getToken();
+    }else {
+        error();
+    }
+
+    return nullptr;
+    //std::cout << "Exit <pexpr>" << std::endl;
 }
 
 void Parser::parse(std::string expression){
