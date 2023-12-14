@@ -5,6 +5,8 @@ TODO:
   Veranderd de node in een VAR | @ met eronder twee expressies | Lambda met eronder expressie. 
   Is nu alleen nog in EXPR gedaan (en niet getest).
 
+  expr_(expr()) doorgeven zodat de subexpressie weet wat het linkerkind van apply moet zijn
+
   Token klasses moet nog worden aangemaakt om te onthouden wat de variable is (bijv: \X of \Y)
 # ->
 2. bound variables kunnen vinden in AST
