@@ -30,7 +30,7 @@ void Tree::dotRec(std::ofstream & file, Node* n, size_t root){
     size_t number = dotTeller;
     dotTeller++;
     file << "  " << std::to_string(number) << " [label=\"" << n->getTokenString() << "\"]" << std::endl;
-    file << "  " << std::to_string(root) << " -> " << std::to_string(number) << std::endl;
+    if(number != 0) file << "  " << std::to_string(root) << " -> " << std::to_string(number) << std::endl;
    
     dotRec(file, n->getLeftChild(), number);
     dotRec(file, n->getRightChild(), number);
