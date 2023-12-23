@@ -10,15 +10,20 @@ void Parser::start(){
 
 Node* Parser::expr(){
     std::cout << " Enter <expr> " << std::endl;
-    
-    Node* left = lexpr(); // <-- linker kind van @
-    Node* right = expr_(); // <-- rechter kind van @
+    Node* n = nullptr;
 
+    Node* a = lexpr(); // <-- linker kind van @
+    Node* b = expr_(a); // <-- rechter kind van @
+    if(b == nullptr){
+        n = a;
+    }else{
+        n = b;
+    }
     std::cout << "Exit <expr>" << std::endl;
-    return buildSubTree(left,right);
+    return n;
 }
 
-Node* Parser::expr_(){
+Node* Parser::expr_(Node* left){
     std::cout << " Enter <expr_>" << std::endl;
     Node* n = nullptr;
 
@@ -26,10 +31,16 @@ Node* Parser::expr_(){
        nextToken.code == TokenCodes::VAR ||
        nextToken.code == TokenCodes::LEFT_PAREN){
         
-        Node* left = lexpr(); // <-- linker kind van @
-        Node* right = expr_(); // <-- rechter kind van @
+        Node* a = lexpr(); // <-- linker kind van @
+        Node* nwLeft = buildSubTree(left,a);
 
-        n = buildSubTree(left,right);
+        Node* b = expr_(nwLeft); // <-- rechter kind van @
+        if(b == nullptr){
+            n = nwLeft;
+        }else{
+            n = b;
+        }
+
     }
 
     std::cout << "Exit <expr_>" << std::endl;

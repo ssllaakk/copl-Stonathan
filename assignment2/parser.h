@@ -31,7 +31,7 @@ private:
     Node* expr();
 
     // ⟨expr'⟩ ::= ⟨lexpr⟩ ⟨expr'⟩ | ε
-    Node* expr_();
+    Node* expr_(Node* left);
 
     // ⟨lexpr⟩ ::= ⟨pexpr⟩ | '\' ⟨var⟩ ⟨lexpr⟩
     Node* lexpr();
