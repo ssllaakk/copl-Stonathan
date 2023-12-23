@@ -7,19 +7,19 @@ std::string Token::toString()
         switch (code)
         {
             case TokenCodes::VAR:
-                s = "VAR";
+                s = "";
                 break;
             case TokenCodes::LAMBDA:
-                s = "LAMBDA";
+                s = "λ";
                 break;
             case TokenCodes::LEFT_PAREN:
-                s = "LEFT_PAREN";
+                s = "(";
                 break;
             case TokenCodes::RIGHT_PAREN:
-                s = "RIGHT_PAREN";
+                s = ")";
                 break;
             case TokenCodes::AT_SIGN:
-                s = "AT_SIGN";
+                s = "@";
                 break;
             case TokenCodes::ERROR:
                 s = "ERROR";
